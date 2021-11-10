@@ -81,6 +81,7 @@ REALIGN_STACK x264_t *x264_encoder_open( x264_param_t *param )
 
     if( HAVE_BITDEPTH8 && param->i_bitdepth == 8 )
     {
+#if HAVE_BITDEPTH8
         api->nal_encode = x264_8_nal_encode;
         api->encoder_reconfig = x264_8_encoder_reconfig;
         api->encoder_parameters = x264_8_encoder_parameters;
@@ -93,9 +94,11 @@ REALIGN_STACK x264_t *x264_encoder_open( x264_param_t *param )
         api->encoder_invalidate_reference = x264_8_encoder_invalidate_reference;
 
         api->x264 = x264_8_encoder_open( param, api );
+#endif
     }
     else if( HAVE_BITDEPTH10 && param->i_bitdepth == 10 )
     {
+#if HAVE_BITDEPTH10
         api->nal_encode = x264_10_nal_encode;
         api->encoder_reconfig = x264_10_encoder_reconfig;
         api->encoder_parameters = x264_10_encoder_parameters;
@@ -108,6 +111,7 @@ REALIGN_STACK x264_t *x264_encoder_open( x264_param_t *param )
         api->encoder_invalidate_reference = x264_10_encoder_invalidate_reference;
 
         api->x264 = x264_10_encoder_open( param, api );
+#endif
     }
     else
         x264_log_internal( X264_LOG_ERROR, "not compiled with %d bit depth support\n", param->i_bitdepth );
